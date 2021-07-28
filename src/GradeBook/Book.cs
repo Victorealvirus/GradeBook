@@ -1,30 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GradeBook
 {
-    class Book
+    public class Book
     {
         List<double> grades = new List<double>();
-        string name;
+        string Name;
 
         public Book(string name)
         {
-            this.name = name;
+            Name = name;
         }
-        public void AddGrades(double grade)
+        public void AddGrade(double grade)
         {
             grades.Add(grade);
         }
 
-        public void ShowStats()
-        {            
-            Console.WriteLine($"The highest grade in {name} is {grades.Max()}");
-            Console.WriteLine($"The lowest grade in {name} is {grades.Min()}");
-            Console.WriteLine($"The average grade in {name} is {grades.Average()}");
+        public Stats GetStats()
+        {
+            var stats = new Stats();
+            stats.Avg = 0.0;
+            stats.high = double.MinValue;
+            stats.low = double.MaxValue;
+
+            foreach (var grade in grades)
+            {
+                stats.low = Math.Min(grade, stats.low);
+                stats.high = Math.Max(grade, stats.high);
+                stats.Avg += grade;
+            }
+            stats.Avg /= grades.Count();
+
+            return stats;
+            
         }
     }
 }
