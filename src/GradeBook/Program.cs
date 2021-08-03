@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace GradeBook
 {
@@ -32,10 +33,13 @@ namespace GradeBook
             }
             var stats = book.GetStats();
 
-            Console.WriteLine($"The highest grade is {stats.high}");
-            Console.WriteLine($"The lowest grade is {stats.low}");
-            Console.WriteLine($"The average grade is {stats.Avg:N2}");
-            Console.WriteLine($"The Letter grade is {stats.Letter}");
+            using (var writer = File.AppendText($"{book.Name}.txt"))
+            {
+                writer.WriteLine($"The highest grade is {stats.high}");
+                writer.WriteLine($"The lowest grade is {stats.low}");
+                writer.WriteLine($"The average grade is {stats.Avg:N2}");
+                writer.WriteLine($"The Letter grade is {stats.Letter}");
+            }
         }
     }
 }
